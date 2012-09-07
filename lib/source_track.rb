@@ -1,6 +1,8 @@
-require "source_track/version"
-require "source_track/configuration"
-require "source_track/token_parser"
+require 'source_track/version'
+require 'source_track/configuration'
+require 'source_track/token_parser'
+
+require 'source_track/railtie' if defined?(Rails::Railtie)
 
 module SourceTrack
   class << self

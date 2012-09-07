@@ -6,7 +6,7 @@ module SourceTrack
 
     DEFAULT_SEPERATOR = "|"
     DEFAULT_EPOCH = Date.new(2012,1,1)
-    OPTIONS = [:use_dates, :signed_cookies, :signing_secret].freeze
+    OPTIONS = [:use_dates, :signed_cookies, :signing_secret, :seperator, :epoch, :logger].freeze
 
     # Add a date component to the source token stored
     attr_writer :use_dates
@@ -26,14 +26,10 @@ module SourceTrack
     # Epoch date to use for hexdates
     attr_accessor :epoch
 
-    # Length of hexdate
-    attr_accessor :date_length
-
     attr_accessor :logger
     
     def initialize
       @epoch = DEFAULT_EPOCH
-      @date_length = 4
       @cookie_name = "sct"
     end
 
