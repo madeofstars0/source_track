@@ -22,15 +22,16 @@ module SourceTrack
       #   redirect root_url
       # end
 
-      def track_source(token, options)
-        tokens = SourceTrack.parser.tokens(cookies[SourceTrack.configuration.cookie_name]) 
+      # TODO - make sure the cookie is a far future expires
+      def track_source(token, options = {})
+        tokens = SourceTrack.parser.parse(cookies[SourceTrack.configuration.cookie_name]) 
         tokens << {:token => token, :date => Date.today}
         cookies[SourceTrack.configuration.cookie_name] = SourceTrack.parser.encode(tokens)
       end
 
       # TODO - make sure the instance variables are on an instance, not the class
       def source_tokens
-        @tokens ||= SourceTrack.parser.tokens(cookies[SourceTrack.configuration.cookie_name])
+        @tokens ||= SourceTrack.parser.parse(cookies[SourceTrack.configuration.cookie_name])
       end
 
       def clear_tokens
@@ -38,9 +39,9 @@ module SourceTrack
       end
 
       def has_source(token)
-        tokens.map{|m| m[:token]}.include?(token)
+        source_tokens.map{|m| m[:token]}.include?(token)
       end
-      alias :has_source?, :has_source
+      alias_method :has_source?, :has_source
 
     end
   end
