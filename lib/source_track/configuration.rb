@@ -26,10 +26,14 @@ module SourceTrack
     # Epoch date to use for hexdates
     attr_accessor :epoch
 
+    # Length of hexdate
+    attr_accessor :date_length
+
     attr_accessor :logger
     
     def initialize
       @epoch = DEFAULT_EPOCH
+      @date_length = 4
       @cookie_name = "sct"
     end
 
