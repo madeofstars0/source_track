@@ -4,10 +4,6 @@ require 'open-uri'
 module SourceTrack
   class TokenParser
 
-    def initialize
-      @config = SourceTrack.configuration
-    end
-
     # Take the string from the cookie and return the source tokens (token and optional date)
     # ABC12300FA|CODE2300FB|CD2380    #( with dates, last 4 characters are hex )
     # ABBC123|CODE23|CD       #( no dates )
@@ -16,16 +12,15 @@ module SourceTrack
       return [] if v.nil? || v.strip.empty?
 
       tokens = []
-      v.split(@config.separator).each do |t|
+      v.split(config.separator).each do |t|
         # validate the token is valid
 
-        if @config.use_dates?
-          token, token_date = split_token_date(t, @config.date_length)
-          tokens << {:token => token, :date => get_date(token_date, @config.epoch)}
+        if config.use_dates?
+          token, token_date = split_token_date(t, config.date_length)
+          tokens << {:token => token, :date => get_date(token_date, config.epoch)}
         else
           tokens << {:token => t}
         end
-        
       end
 
       tokens
@@ -41,14 +36,14 @@ module SourceTrack
       #       the order from left to right is oldest to newest - any duplicates should always be newest
       #       (i.e. if we 'track' a user using the same token on the same day 2x - the second visit's position
       #       should be meaningful) -- i.e.  order of tracking => A, F, B, F, C  should encode as A|B|F|C, NOT A|F|B|C
-      tokens.map{|t| encode_token(t) }.join(@config.separator)
+      tokens.map{|t| encode_token(t) }.join(config.separator)
     end
 
     private
 
     def encode_token(token)
       encoded_token = token[:token]
-      encoded_token += get_hex_date(token[:date], @config.epoch) unless token[:date].nil?
+      encoded_token += get_hex_date(token[:date], config.epoch) if (!token[:date].nil? && config.use_dates?)
       encoded_token
     end
 
@@ -66,6 +61,10 @@ module SourceTrack
 
     def get_hex_date(date, epoch)
       sprintf("%04X", (date - epoch))
+    end
+
+    def config
+      SourceTrack.configuration
     end
   end
 end
