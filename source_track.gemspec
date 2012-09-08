@@ -4,9 +4,11 @@ require File.expand_path('../lib/source_track/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Bryan Rehbein"]
   gem.email         = ["bryan@siliconsea.net"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Gem to help understand a user's interaction with your site 
+                         and the influence of various referrals, promos, campaigns, etc.}
+  gem.summary       = %q{Track the influence that your marketing campaigns and referrals 
+                         have on your users.}
+  gem.homepage      = "https://github.com/redbeard0x0a/source_track"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

@@ -24,12 +24,15 @@ module SourceTrack
 
       # TODO - make sure the cookie is a far future expires
       def track_source(token, options = {})
-        tokens = SourceTrack.parser.parse(cookies[SourceTrack.configuration.cookie_name]) 
+        tokens = source_tokens
         tokens << {:token => token, :date => Date.today}
-        cookies[SourceTrack.configuration.cookie_name] = SourceTrack.parser.encode(tokens)
+        cookies[SourceTrack.configuration.cookie_name] = {
+          :value => SourceTrack.parser.encode(tokens),
+          :http_only => SourceTrack.configuration.http_only_cookies,
+          :expires => 10.years.from_now
+        }
       end
 
-      # TODO - make sure the instance variables are on an instance, not the class
       def source_tokens
         @tokens ||= SourceTrack.parser.parse(cookies[SourceTrack.configuration.cookie_name])
       end

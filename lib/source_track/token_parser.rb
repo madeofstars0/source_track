@@ -16,7 +16,7 @@ module SourceTrack
       return [] if v.nil? || v.strip.empty?
 
       tokens = []
-      v.split(@config.seperator).each do |t|
+      v.split(@config.separator).each do |t|
         # validate the token is valid
 
         if @config.use_dates?
@@ -41,7 +41,7 @@ module SourceTrack
       #       the order from left to right is oldest to newest - any duplicates should always be newest
       #       (i.e. if we 'track' a user using the same token on the same day 2x - the second visit's position
       #       should be meaningful) -- i.e.  order of tracking => A, F, B, F, C  should encode as A|B|F|C, NOT A|F|B|C
-      tokens.map{|t| encode_token(t) }.join(@config.seperator)
+      tokens.map{|t| encode_token(t) }.join(@config.separator)
     end
 
     private
